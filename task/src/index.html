@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div class="title">Case Converter</div>
+    <textarea></textarea>
+    <button id="upper-case">Upper Case</button>
+    <button id="lower-case">Lower Case</button>
+    <button id="proper-case">Proper Case</button>
+    <button id="sentence-case">Sentence Case</button>
+    <button id="save-text-file">Save Text File</button>
+    <script>
+        document.getElementById("upper-case").addEventListener("click", function (){
+            let words = document.querySelector('textarea').value.toUpperCase().split(' ');
+            document.querySelector('textarea').value = words.join(' ');
+        })
+        document.getElementById("lower-case").addEventListener("click", function (){
+            let words = document.querySelector('textarea').value.toLowerCase().split(' ');
+            document.querySelector('textarea').value = words.join(' ');
+        })
+        document.getElementById("proper-case").addEventListener("click", function (){
+            let words = document.querySelector('textarea').value;
+            words=words.toLowerCase();
+            console.log(words);
+            words = words.split(' ');
+            console.log(words);
+            for (var i = 0; i < words.length; i++) {
+                words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
+            }
+            console.log(words);
+            document.querySelector('textarea').value = words.join(' ');
+        })
+        function firstLetterUpper(theString) {
+            let newString = theString.toLowerCase().replace(/(^\s*\w|[\.\!\?]\s*\w)/g,function(c){return c.toUpperCase()});
+            return newString;
+        }
+        document.getElementById("sentence-case").addEventListener("click", function () {
+            let words = document.querySelector('textarea').value;
+            words = firstLetterUpper(words);
+            //words.toLowerCase().replace(/(^\s*\w|[\.\!\?]\s*\w)/g,function(c){return c.toUpperCase()})
+            console.log(words);
+            document.querySelector('textarea').value = words;
+        })
+
+        function download(filename, text) {
+            let element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+            element.setAttribute('download', filename);
+
+            element.style.display = 'none';
+            document.body.appendChild(element);
+
+            element.click();
+
+            document.body.removeChild(element);
+        }
+        document.getElementById("save-text-file").addEventListener("click", function () {
+            let words = document.querySelector('textarea').value;
+            download("text.txt", words);
+        })
+
+    </script>
+</body>
+</html>
